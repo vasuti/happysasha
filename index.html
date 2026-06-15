@@ -116,7 +116,29 @@ h1 span{color:var(--red2);}
 .loader-bar-wrap{width:120px;height:1px;background:rgba(180,200,230,.06);border-radius:1px;overflow:hidden;position:relative;z-index:1;}
 .loader-bar{height:100%;width:0%;background:var(--red2);transition:width .6s ease;border-radius:1px;}
 
-@media(max-width:600px){
+/* ── password screen ── */
+#pwd-screen{position:fixed;inset:0;background:var(--black);z-index:20000;display:flex;align-items:center;justify-content:center;transition:opacity .8s ease,visibility .8s ease;}
+#pwd-screen.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+#pwd-dots-bg{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.055) 1px,transparent 1px);background-size:22px 22px;pointer-events:none;}
+#pwd-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(60,100,170,.18) 0%,transparent 72%);}
+.pwd-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:16px;}
+.pwd-title{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:300;letter-spacing:.4em;text-transform:uppercase;color:rgba(180,200,230,.5);}
+.pwd-sub{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(180,200,230,.25);margin-top:-8px;}
+.pwd-display{font-family:'Montserrat',sans-serif;font-size:32px;font-weight:200;letter-spacing:.5em;color:var(--cream);margin:8px 0;min-width:160px;text-align:center;}
+.pwd-pad{display:grid;grid-template-columns:repeat(3,60px);gap:8px;}
+.pwd-key{width:60px;height:60px;border-radius:50%;background:rgba(180,200,230,.06);border:1px solid rgba(180,200,230,.12);color:var(--cream);font-family:'Montserrat',sans-serif;font-size:18px;font-weight:300;cursor:pointer;transition:background .15s,transform .1s;display:flex;align-items:center;justify-content:center;}
+.pwd-key:hover{background:rgba(180,200,230,.14);border-color:rgba(180,200,230,.3);}
+.pwd-key:active{transform:scale(.92);}
+.pwd-clear{color:rgba(180,200,230,.4);font-size:14px;}
+.pwd-enter{background:rgba(126,179,224,.15);border-color:rgba(126,179,224,.35);color:var(--red2);}
+.pwd-enter:hover{background:rgba(126,179,224,.28);}
+.pwd-error{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(238,80,80,.7);opacity:0;transition:opacity .3s;margin-top:-4px;}
+.pwd-error.show{opacity:1;}
+
+@keyframes wrongShake{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-6px);}80%{transform:translateX(6px);}}
+.pwd-display.shake{animation:wrongShake .4s ease;}
+
+
   #content{padding:80px 16px 80px;}
   h1{font-size:clamp(40px,13vw,68px);}
   .pc-code{font-size:clamp(12px,4vw,16px);padding:16px;}
@@ -130,6 +152,32 @@ h1 span{color:var(--red2);}
 </style>
 </head>
 <body>
+
+<!-- password screen -->
+<div id="pwd-screen">
+  <div id="pwd-dots-bg"></div>
+  <div id="pwd-glow"></div>
+  <div class="pwd-inner">
+    <div class="pwd-title">ВВЕДИ КОД</div>
+    <div class="pwd-sub">4 цифры</div>
+    <div class="pwd-display" id="pwd-display">————</div>
+    <div class="pwd-pad">
+      <button class="pwd-key" data-n="1">1</button>
+      <button class="pwd-key" data-n="2">2</button>
+      <button class="pwd-key" data-n="3">3</button>
+      <button class="pwd-key" data-n="4">4</button>
+      <button class="pwd-key" data-n="5">5</button>
+      <button class="pwd-key" data-n="6">6</button>
+      <button class="pwd-key" data-n="7">7</button>
+      <button class="pwd-key" data-n="8">8</button>
+      <button class="pwd-key" data-n="9">9</button>
+      <button class="pwd-key pwd-clear" id="pwd-clear">✕</button>
+      <button class="pwd-key" data-n="0">0</button>
+      <button class="pwd-key pwd-enter" id="pwd-enter">→</button>
+    </div>
+    <div class="pwd-error" id="pwd-error">Неверный код</div>
+  </div>
+</div>
 
 <!-- loader -->
 <div id="loader">
@@ -187,7 +235,7 @@ h1 span{color:var(--red2);}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
       </button>
     </div>
-    <div class="pc-hint">используй его для записи на курс по обжарке</div>
+    <div class="pc-hint">используй его для записи на курс по обжарке · действует 2 года</div>
     <a class="pc-btn" href="https://19grams.coffee/products/einfuhrung-in-kaffeerosten-kurs?shop_sign_in=true" target="_blank">Жарить</a>
   </div>
 </div>
@@ -332,16 +380,34 @@ function spawnIdleConf(){
   cctx.clearRect(0,0,ccvs.width,ccvs.height);
   for(let i=cpts.length-1;i>=0;i--){
     const p=cpts[i];
-    p.x+=p.vx; p.y+=p.vy; p.vy+=.2; p.vx*=.98;
-    p.life-=p.decay; p.rot+=p.rs;
-    if(p.life<=0){cpts.splice(i,1);continue;}
+    if(p.isBalloon){
+      p.x+=p.vx; p.y+=p.vy;
+      p.vx+=Math.sin(Date.now()/800+i)*0.03;
+      p.life-=p.decay; p.rot+=p.rs;
+    } else {
+      p.x+=p.vx; p.y+=p.vy; p.vy+=.2; p.vx*=.98;
+      p.life-=p.decay; p.rot+=p.rs;
+    }
+    if(p.life<=0||p.y<-80){cpts.splice(i,1);continue;}
     cctx.save(); cctx.globalAlpha=p.life;
     cctx.translate(p.x,p.y); cctx.rotate(p.rot);
-    cctx.fillStyle=p.color;
-    if(p.shape==='circle'){
-      cctx.beginPath(); cctx.arc(0,0,p.w/2,0,Math.PI*2); cctx.fill();
+    if(p.e){
+      const fs=p.size||16;
+      if(p.isBalloon){
+        cctx.textAlign='center'; cctx.textBaseline='middle';
+        cctx.font=`900 ${fs}px Montserrat,Arial,sans-serif`;
+        cctx.fillStyle=p.color;
+        cctx.fillText(p.e,0,0);
+      } else {
+        cctx.font=`${fs}px serif`;
+        cctx.fillStyle='white';
+        cctx.textAlign='center'; cctx.textBaseline='middle';
+        cctx.fillText(p.e,0,0);
+      }
     } else {
-      cctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      cctx.fillStyle=p.color;
+      if(p.shape==='circle'){cctx.beginPath();cctx.arc(0,0,p.w/2,0,Math.PI*2);cctx.fill();}
+      else{cctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);}
     }
     cctx.restore();
   }
@@ -360,8 +426,8 @@ resetIdle();
 // ── CONTRIBUTORS ──
 const isMobile=('ontouchstart' in window)||navigator.maxTouchPoints>0;
 const names=['Булат','Юля Тарасова','Олежа','Саша Газе','Танюха','Артём Зверковский','Яря','Андрей','Влада','Семён Леонтьев','Даша и Игорь','Даша Альбицкая','Эмиль','Лена Габдулина','Артёмка','Настя и Влад'];
-const sizes=[32,18,44,22,28,16,38,24,20,36,26,42,18,30,22];
-const opacs=[1,.55,.85,.6,.9,.45,.75,.65,.8,.7,.5,.95,.6,.75,.55];
+const sizes=[30,17,38,20,26,15,34,22,18,32,24,20,28,16,22,18];
+const opacs=[1,.55,.85,.6,.9,.45,.75,.65,.8,.7,.6,.5,.85,.55,.75,.6];
 const field=document.getElementById('names-field');
 const placed=[];
 
@@ -511,6 +577,80 @@ document.querySelectorAll('.nav-item').forEach(el=>{
     el.classList.add('active');
   });
 });
+
+// ── PASSWORD ──
+const PWD='1506';
+let pwdInput='';
+const pwdDisplay=document.getElementById('pwd-display');
+const pwdError=document.getElementById('pwd-error');
+const pwdScreen=document.getElementById('pwd-screen');
+
+function updateDisplay(){
+  let s='';
+  for(let i=0;i<4;i++) s+= i<pwdInput.length ? pwdInput[i] : '—';
+  pwdDisplay.textContent=s;
+}
+
+document.querySelectorAll('.pwd-key[data-n]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(pwdInput.length>=4)return;
+    pwdInput+=btn.dataset.n;
+    updateDisplay();
+    if(pwdInput.length===4) setTimeout(checkPwd,120);
+  });
+});
+
+document.getElementById('pwd-clear').addEventListener('click',()=>{
+  pwdInput=''; updateDisplay();
+  pwdError.classList.remove('show');
+});
+
+document.getElementById('pwd-enter').addEventListener('click',checkPwd);
+
+document.addEventListener('keydown',e=>{
+  if(pwdScreen.classList.contains('hidden'))return;
+  if(e.key>='0'&&e.key<='9'&&pwdInput.length<4){pwdInput+=e.key;updateDisplay();if(pwdInput.length===4)setTimeout(checkPwd,120);}
+  if(e.key==='Backspace'){pwdInput=pwdInput.slice(0,-1);updateDisplay();}
+  if(e.key==='Enter')checkPwd();
+});
+
+function checkPwd(){
+  if(pwdInput===PWD){
+    pwdScreen.classList.add('hidden');
+    // birthday balloons after unlock
+    setTimeout(launchBirthdayBalloons, 400);
+  } else {
+    pwdDisplay.classList.add('shake');
+    pwdError.classList.add('show');
+    setTimeout(()=>{pwdDisplay.classList.remove('shake');},400);
+    pwdInput=''; updateDisplay();
+    setTimeout(()=>pwdError.classList.remove('show'),1800);
+  }
+}
+
+// ── BIRTHDAY 38 LAUNCH ──
+function launchBirthdayBalloons(){
+  const colors=['#B8E0FF','#7EB3E0','#A8D8FF','#FFB3D9','#FF8EC4','#FFC8E8','#85C8FF','#FFD6EC','#5BB8FF','#FFADD6'];
+  let count=0;
+  const interval=setInterval(()=>{
+    cpts.push({
+      x:Math.random()*window.innerWidth,
+      y:window.innerHeight+10,
+      vx:(Math.random()-.5)*0.8,
+      vy:-(Math.random()*1.4+1.2),
+      life:1, decay:0.0025+Math.random()*0.002,
+      size:Math.random()*8+11,
+      e:'38',
+      color:colors[Math.floor(Math.random()*colors.length)],
+      rot:(Math.random()-.5)*.3, rs:(Math.random()-.5)*.008,
+      isBalloon:true
+    });
+    count++;
+    if(count>28)clearInterval(interval);
+  },150);
+}
+
+
 </script>
 </body>
 </html>
