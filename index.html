@@ -71,20 +71,38 @@ h1 span{color:var(--red2);}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
 
 /* cert page */
-#page-cert{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:100px 24px 120px;opacity:0;pointer-events:none;transform:translateY(28px);transition:opacity .45s ease,transform .45s cubic-bezier(.22,1,.36,1);}
+#page-cert{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:100px 24px 120px;opacity:0;pointer-events:none;transform:translateY(28px);transition:opacity .45s ease,transform .45s cubic-bezier(.22,1,.36,1);overflow-y:auto;}
 #page-cert.visible{opacity:1;pointer-events:all;transform:translateY(0);}
-.pc-inner{display:flex;flex-direction:column;align-items:center;width:100%;max-width:420px;}
-.pc-eyebrow{font-family:'Montserrat',sans-serif;font-size:clamp(20px,2.8vw,30px);font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:rgba(180,200,230,.65);margin-bottom:12px;text-align:center;}
+.pc-wrap{display:flex;flex-direction:column;gap:16px;width:100%;max-width:460px;}
+.pc-inner{display:flex;flex-direction:column;align-items:center;width:100%;}
+.pc-eyebrow{font-family:'Montserrat',sans-serif;font-size:clamp(16px,2.2vw,24px);font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:rgba(180,200,230,.65);margin-bottom:12px;text-align:center;}
 .pc-sub{font-family:'Montserrat',sans-serif;font-size:clamp(12px,1.3vw,15px);font-weight:300;letter-spacing:.14em;color:rgba(180,200,230,.4);margin-bottom:36px;text-align:center;line-height:1.7;text-transform:uppercase;}
 .pc-code-label{font-size:11px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:rgba(180,200,230,.4);margin-bottom:12px;}
 .pc-code-wrap{position:relative;width:100%;margin-bottom:0;}
 .pc-code{font-size:clamp(14px,2vw,20px);font-weight:400;letter-spacing:.14em;color:var(--cream);text-align:center;line-height:1.3;background:rgba(126,179,224,.06);border:1px solid rgba(126,179,224,.18);border-radius:12px;padding:24px 32px;width:100%;}
-.pc-copy{position:absolute;top:10px;right:12px;display:flex;align-items:center;justify-content:center;background:rgba(180,200,230,.06);border:1px solid rgba(180,200,230,.14);border-radius:6px;padding:8px;width:34px;height:34px;color:rgba(180,200,230,.45);font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;cursor:none;transition:background .2s,color .2s,border-color .2s;}
+.pc-copy{position:absolute;top:10px;right:12px;display:flex;align-items:center;justify-content:center;background:rgba(180,200,230,.06);border:1px solid rgba(180,200,230,.14);border-radius:6px;padding:8px;width:34px;height:34px;color:rgba(180,200,230,.45);cursor:none;transition:background .2s,color .2s,border-color .2s;}
 .pc-copy:hover{background:rgba(180,200,230,.12);color:var(--cream);border-color:rgba(180,200,230,.4);}
 .pc-copy.copied{color:var(--red2);border-color:rgba(238,35,36,.4);background:rgba(238,35,36,.08);}
 .pc-hint{font-size:9px;font-weight:400;letter-spacing:.16em;color:rgba(180,200,230,.4);margin-bottom:20px;margin-top:14px;text-align:center;line-height:1.6;}
-.pc-btn{display:flex;align-items:center;justify-content:center;width:auto;padding:13px 44px;background:rgba(126,179,224,.22);color:#fff;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;text-decoration:none;border-radius:40px;cursor:none;border:1px solid rgba(126,179,224,.5);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:background .3s,border-color .3s,color .3s;}
+.pc-btn{display:flex;align-items:center;justify-content:center;width:auto;padding:13px 44px;background:rgba(126,179,224,.22);color:#fff;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;text-decoration:none;border-radius:40px;cursor:none;border:1px solid rgba(126,179,224,.5);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:background .3s,border-color .3s,color .3s;margin-bottom:40px;}
 .pc-btn:hover{background:rgba(126,179,224,.38);border-color:rgba(126,179,224,.8);color:#fff;animation:roastShake .5s cubic-bezier(.36,.07,.19,.97) both;}@keyframes roastShake{0%{transform:rotate(0deg);}15%{transform:rotate(-4deg) scale(1.06);}30%{transform:rotate(4deg) scale(1.08);}45%{transform:rotate(-3deg) scale(1.06);}60%{transform:rotate(3deg);}75%{transform:rotate(-1deg);}100%{transform:rotate(0deg);}}
+
+/* third mini gift card */
+.gift-card-3{
+  width:100%;
+  margin-top:20px;
+  background:rgba(126,179,224,.07);
+  border:1px solid rgba(126,179,224,.15);
+  border-radius:12px;
+  padding:20px 24px;
+  display:flex;flex-direction:row;align-items:center;gap:20px;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+}
+.gc3-illustration{width:100px;height:100px;flex-shrink:0;}
+.gc3-text{display:flex;flex-direction:column;gap:6px;}
+.gc3-label{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:rgba(180,200,230,.35);}
+.gc3-title{font-family:'Montserrat',sans-serif;font-size:clamp(15px,2vw,20px);font-weight:600;color:var(--cream);letter-spacing:-.01em;}
+.gc3-sub{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:300;letter-spacing:.16em;text-transform:uppercase;color:rgba(180,200,230,.45);line-height:1.6;}
 
 /* contributors page */
 #page-people{position:fixed;inset:0;z-index:50;opacity:0;pointer-events:none;transform:translateY(28px);transition:opacity .45s ease,transform .45s cubic-bezier(.22,1,.36,1);overflow:hidden;}
@@ -148,6 +166,13 @@ h1 span{color:var(--red2);}
   #loc-fixed{display:none;}
   .nav-name{position:absolute;left:50%;transform:translateX(-50%);}
   .nav-center,.nav-right{display:none;}
+  /* mobile card */
+  .gift-card-3{padding:14px 16px;gap:12px;}
+  .gc3-illustration{width:64px;height:64px;flex-shrink:0;}
+  .gc3-title{font-size:14px;}
+  .gc3-sub{font-size:9px;letter-spacing:.1em;}
+  /* mobile names — smaller to prevent overlap */
+  .name-tag{font-size:13px !important;}
 }
 </style>
 </head>
@@ -224,18 +249,67 @@ h1 span{color:var(--red2);}
 
 <!-- cert page -->
 <div id="page-cert">
-  <div class="pc-inner">
-    <div class="pc-eyebrow">Подарочек</div>
-    <div class="pc-sub">Курс по обжарке кофе<br>в 19gramms · Berlin</div>
-    <div class="pc-code-label">Твой подарочный код</div>
-    <div class="pc-code-wrap">
-      <div class="pc-code" id="gift-code">D6EA 948C<br>B33F FA93</div>
-      <button class="pc-copy" id="copy-btn" title="Скопировать код">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-      </button>
+  <div class="pc-wrap">
+    <div class="pc-inner">
+      <div class="pc-eyebrow">Подарочек</div>
+      <div class="pc-sub">Курс по обжарке кофе<br>в 19gramms · Berlin</div>
+      <div class="pc-code-label">Твой подарочный код</div>
+      <div class="pc-code-wrap">
+        <div class="pc-code" id="gift-code">D6EA 948C<br>B33F FA93</div>
+        <button class="pc-copy" id="copy-btn" title="Скопировать код">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+      <div class="pc-hint">используй его для записи на курс по обжарке · действует 2 года</div>
+      <a class="pc-btn" href="https://19grams.coffee/products/einfuhrung-in-kaffeerosten-kurs?shop_sign_in=true" target="_blank">Жарить</a>
     </div>
-    <div class="pc-hint">используй его для записи на курс по обжарке · действует 2 года</div>
-    <a class="pc-btn" href="https://19grams.coffee/products/einfuhrung-in-kaffeerosten-kurs?shop_sign_in=true" target="_blank">Жарить</a>
+
+    <div class="gift-card-3">
+      <div class="gc3-illustration">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+          <!-- ground blob -->
+          <ellipse cx="60" cy="98" rx="42" ry="10" fill="rgba(126,179,224,0.12)"/>
+          <!-- grass left -->
+          <path d="M18 98 Q14 78 22 68 Q20 82 28 90 Q22 90 18 98" fill="rgba(126,179,224,0.3)" stroke="rgba(126,179,224,0.5)" stroke-width="1"/>
+          <path d="M26 98 Q20 75 30 63 Q28 80 36 92 Q30 92 26 98" fill="rgba(126,179,224,0.22)" stroke="rgba(126,179,224,0.4)" stroke-width="1"/>
+          <path d="M34 98 Q30 80 38 72 Q36 84 42 93" fill="rgba(126,179,224,0.18)" stroke="rgba(126,179,224,0.35)" stroke-width="1"/>
+          <!-- grass right -->
+          <path d="M102 98 Q106 78 98 68 Q100 82 92 90 Q98 90 102 98" fill="rgba(126,179,224,0.3)" stroke="rgba(126,179,224,0.5)" stroke-width="1"/>
+          <path d="M94 98 Q100 75 90 63 Q92 80 84 92 Q90 92 94 98" fill="rgba(126,179,224,0.22)" stroke="rgba(126,179,224,0.4)" stroke-width="1"/>
+          <path d="M86 98 Q90 80 82 72 Q84 84 78 93" fill="rgba(126,179,224,0.18)" stroke="rgba(126,179,224,0.35)" stroke-width="1"/>
+          <!-- small flowers -->
+          <circle cx="30" cy="93" r="3.5" fill="rgba(126,179,224,0.25)" stroke="rgba(180,200,230,0.6)" stroke-width="1"/>
+          <circle cx="30" cy="93" r="1.5" fill="rgba(216,221,232,0.8)"/>
+          <circle cx="90" cy="91" r="3" fill="rgba(126,179,224,0.25)" stroke="rgba(180,200,230,0.6)" stroke-width="1"/>
+          <circle cx="90" cy="91" r="1.5" fill="rgba(216,221,232,0.8)"/>
+          <circle cx="60" cy="96" r="2.5" fill="rgba(126,179,224,0.2)" stroke="rgba(180,200,230,0.5)" stroke-width="1"/>
+          <!-- body — crouching person peeking from grass -->
+          <!-- torso/body blob -->
+          <ellipse cx="60" cy="82" rx="18" ry="14" fill="rgba(180,200,230,0.15)" stroke="rgba(180,200,230,0.4)" stroke-width="1.5"/>
+          <!-- head -->
+          <circle cx="60" cy="62" r="13" fill="rgba(180,200,230,0.12)" stroke="rgba(180,200,230,0.45)" stroke-width="1.5"/>
+          <!-- eyes — binoculars style circles -->
+          <circle cx="54" cy="61" r="5.5" fill="rgba(8,9,15,0.6)" stroke="rgba(180,200,230,0.6)" stroke-width="1.5"/>
+          <circle cx="66" cy="61" r="5.5" fill="rgba(8,9,15,0.6)" stroke="rgba(180,200,230,0.6)" stroke-width="1.5"/>
+          <!-- binocular bridge -->
+          <line x1="59.5" y1="61" x2="60.5" y2="61" stroke="rgba(180,200,230,0.6)" stroke-width="1.5"/>
+          <!-- binocular lens gleam -->
+          <circle cx="52" cy="59" r="1.5" fill="rgba(216,221,232,0.7)"/>
+          <circle cx="64" cy="59" r="1.5" fill="rgba(216,221,232,0.7)"/>
+          <!-- arms -->
+          <path d="M42 82 Q34 78 32 72" stroke="rgba(180,200,230,0.4)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M78 82 Q86 78 88 72" stroke="rgba(180,200,230,0.4)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- sparkles -->
+          <text x="10" y="38" font-size="9" fill="rgba(180,200,230,0.5)" font-family="serif">✦</text>
+          <text x="100" y="44" font-size="7" fill="rgba(126,179,224,0.45)" font-family="serif">✦</text>
+          <text x="55" y="22" font-size="6" fill="rgba(180,200,230,0.35)" font-family="serif">✦</text>
+        </svg>
+      </div>
+      <div class="gc3-text">
+        <div class="gc3-title">ещё мини-подарочек</div>
+        <div class="gc3-sub">через 1–2 дня придёт доставка<br>от beyondbeer</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -443,7 +517,7 @@ names.forEach((name,i)=>{
   const el=document.createElement('span');
   el.className='name-tag';
   el.textContent=name;
-  const fs=isMobile ? Math.min(sizes[i], 16) : sizes[i];
+  const fs=isMobile ? Math.min(sizes[i], 13) : sizes[i];
   el.style.fontSize=fs+'px';
   el.style.opacity=opacs[i];
   field.appendChild(el);
